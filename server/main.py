@@ -8,7 +8,7 @@ from utils.rpc_router import RpcRouter
 async def homepage(request):
     return JSONResponse({'hello': 'world'})
 
-router = RpcRouter(app_name="example-test", routes=[
+router = RpcRouter(app_name="example_test", routes=[
     get_output,
 ])
 

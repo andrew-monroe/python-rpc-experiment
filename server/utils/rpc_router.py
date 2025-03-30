@@ -44,14 +44,13 @@ class RPC(Protocol, Generic[InputStructType, OutputStructType]):
 
 class RpcRouter:
     def __init__(self, app_name: str, routes: list[RPC]):
-        assert app_name == to_kebab_case(app_name), f"'{app_name}' expected to be kebab-case ('{to_kebab_case(app_name)}')"
         self.app_name = app_name
         self.rpc_dict: dict[str, RPC] = {}
         for r in routes:
             self.rpc_dict[r.__name__] = r
 
     def get_path_name(self, func_name: str) -> str:
-        return f"/rpc/{self.app_name}/{to_kebab_case(func_name)}"
+        return f"/rpc/{to_kebab_case(self.app_name)}/{to_kebab_case(func_name)}"
 
 
     def get_handler(self, func_name: str):
@@ -89,7 +88,7 @@ class RpcRouter:
                 TypescriptFetchMethod(
                     input="MyInput",
                     output="MyOutput",
-                    route="/rpc/app/test",
+                    route=self.get_path_name(func_name),
                     name="test",
                 )
             ],
